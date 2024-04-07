@@ -40,6 +40,16 @@ cmake_args += ['-DCUDA_SUPPORT=ON', '-DDFLOAT=ON', '-DDLONG=OFF']
 # Pass Python include directory
 cmake_args += ['-DPYTHON_INCLUDE_DIRS=%s' % sysconfig.get_python_inc()]
 
+# Check CUDA version
+# cuda_version = str(os.environ['CUDA_PATH'])[-4:-2]
+
+# # Pass CUDA options to CMake based on CUDA version
+# if int(cuda_version) == 12:
+#     cmake_args += ['-DCUDA_ARCHITECTURES=75']  # Update architectures for CUDA 12
+#     # Add other CUDA 12-specific CMake arguments if needed
+# else:
+#     cmake_args += ['-DCUDA_ARCHITECTURES=52']  # Fallback for older CUDA versions
+
 # Pass Python to compiler launched from setup.py
 define_macros += [('PYTHON', None)]
 
@@ -65,7 +75,7 @@ else:
     compile_args = []
 
 # External libraries
-libraries = ['cublas', 'cusparse', 'cudart', 'stdc++']
+libraries = ['cublas', 'cusparse', 'cudart', 'msvcprt']
 if system() == 'Linux':
     libraries += ['rt']
 if system() == 'Windows' and sys.version_info[0] == 3:
